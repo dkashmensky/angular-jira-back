@@ -6,54 +6,72 @@ function allowEmptyString() {
   return typeof this.assigned_to === 'string';
 }
 
-const LoadSchema = new Schema({
-  created_by: {
+const TaskSchema = new Schema({
+  title: {
     type: String,
     required: true,
   },
-  assigned_to: {
+  type: {
     type: String,
-    required: allowEmptyString(),
-    default: '',
+    enum: ['Epic',
+      'User Story',
+      'Task',
+      'Feature',
+      'Bug'],
+    required: true,
+  },
+  priority: {
+    type: String,
+    enum: ['Blocker',
+      'Critical',
+      'Major',
+      'Minor',
+      'Trivial'],
+    required: true,
   },
   status: {
     type: String,
+    enum: ['To Do',
+      'In Progress',
+      'In Review',
+      'Done'],
     required: true,
-    default: 'new',
   },
-  state: {
+  resolution: {
+    type: String,
+    enum: ['Unresolved',
+      'Fixed',
+      'Not fixable',
+      'Duplicate',
+      'Incomplete',
+      'Cannot reproduce',
+      'Done'],
+    required: true,
+  },
+  description: {
     type: String,
     required: true,
-    default: 'unassigned',
   },
-  payload: {
-    type: Number,
-    required: true,
+  persons: {
+    created: {
+      type: String,
+      required: true,
+    },
+    assigned: {
+      type: String,
+      required: allowEmptyString(),
+      default: '',
+    },
   },
-  dimensions: {
-    length: {
+  dates: {
+    created: {
       type: Number,
       required: true,
     },
-    height: {
-      type: Number,
-      required: true,
-    },
-    width: {
-      type: Number,
-      required: true,
-    },
+    updated: Number,
+    due: Number,
+    resolved: Number,
   },
-  logs: [
-    {
-      message: {
-        type: String,
-      },
-      time: {
-        type: Number,
-      },
-    },
-  ],
 });
 
-module.exports = mongoose.model('Tasks', LoadSchema);
+module.exports = mongoose.model('Tasks', TaskSchema);
