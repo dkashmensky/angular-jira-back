@@ -36,6 +36,7 @@ const TaskSchema = new Schema({
       'In Review',
       'Done'],
     required: true,
+    default: 'To Do',
   },
   resolution: {
     type: String,
@@ -47,10 +48,12 @@ const TaskSchema = new Schema({
       'Cannot reproduce',
       'Done'],
     required: true,
+    default: 'Unresolved',
   },
   description: {
     type: String,
-    required: true,
+    required: allowEmptyString(),
+    default: '',
   },
   persons: {
     created: {
