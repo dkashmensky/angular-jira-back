@@ -3,32 +3,24 @@ const taskController = require('../../controllers/task.controller');
 
 const router = new express.Router();
 
-router.post('/loads', (req, res) => {
-  loadController.create_load(req, res);
+router.get('/tasks', (req, res) => {
+  taskController.get_tasks(req, res);
 });
 
-router.get('/loads', (req, res) => {
-  loadController.get_loads(req, res);
+router.get('/tasks/:id', (req, res) => {
+  taskController.get_task(req, res);
 });
 
-router.put('/loads/:id', (req, res) => {
-  loadController.update_load(req, res);
+router.delete('/tasks/:id', (req, res) => {
+  taskController.delete_task(req, res);
 });
 
-router.delete('/loads/:id', (req, res) => {
-  loadController.delete_load(req, res);
+router.post('/tasks', (req, res) => {
+  taskController.create_task(req, res);
 });
 
-router.patch('/loads/:id/post', (req, res) => {
-  loadController.post_load(req, res);
-});
-
-router.get('/loads/:id/info', (req, res) => {
-  loadController.get_load_info(req, res);
-});
-
-router.patch('/loads/:id/state', (req, res) => {
-  loadController.change_load_state(req, res);
+router.update('/tasks/:id', (req, res) => {
+  taskController.update_task(req, res);
 });
 
 module.exports = router;

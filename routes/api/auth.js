@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const {secret} = require('config');
-const userController = require('../../controllers/user.controller');
 
 const User = mongoose.model('Users');
 const router = new express.Router();
@@ -18,11 +17,11 @@ router.post('/auth/login', (req, res) => {
       return;
     }
 
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
     const [user] = users.filter(
         (item) =>
-          item.username === username &&
+          item.email === email &&
           bcrypt.compareSync(password, item.password)
     );
 
@@ -33,9 +32,7 @@ router.post('/auth/login', (req, res) => {
       return;
     }
 
-    const token = jwt.sign(user.toJSON(), secret, {
-      expiresIn: 259200, // 3 days
-    });
+    const token = jwt.sign(user.toJSON(), secret);
     res.json({
       status: 'User authenticated successfully',
       token,
