@@ -8,6 +8,9 @@ module.exports = {
   extends: ['google'],
   parserOptions: {
     ecmaVersion: 8,
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true 
+    },
   },
   rules: {
     'no-unused-vars': 'warn',

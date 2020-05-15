@@ -21,7 +21,7 @@ module.exports.create_task_schema = joi.object({
           'User Story',
           'Task',
           'Feature',
-          'Bug'
+          'Bug',
       )
       .required(),
   priority: joi
@@ -31,7 +31,7 @@ module.exports.create_task_schema = joi.object({
           'Critical',
           'Major',
           'Minor',
-          'Trivial'
+          'Trivial',
       )
       .required(),
   description: joi.string().allow(''),
@@ -48,7 +48,7 @@ module.exports.update_task_schema = joi.object({
           'User Story',
           'Task',
           'Feature',
-          'Bug'
+          'Bug',
       )
       .required(),
   priority: joi
@@ -58,7 +58,7 @@ module.exports.update_task_schema = joi.object({
           'Critical',
           'Major',
           'Minor',
-          'Trivial'
+          'Trivial',
       )
       .required(),
   description: joi.string(),
@@ -70,7 +70,7 @@ module.exports.update_task_schema = joi.object({
           'To Do',
           'In Progress',
           'In Review',
-          'Done'
+          'Done',
       )
       .required(),
   resolution: joi
@@ -82,7 +82,7 @@ module.exports.update_task_schema = joi.object({
           'Duplicate',
           'Incomplete',
           'Cannot reproduce',
-          'Done'
+          'Done',
       )
       .required(),
 });

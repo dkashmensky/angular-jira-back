@@ -31,10 +31,38 @@ describe('Model testing', () => {
       expect(savedUser.color).toBe(user.color);
       done();
     });
+
+    test('should give an error if required fields are empty', async (done) => {
+      const invalidUser = new UserModel({
+        name: 'User',
+      });
+
+      let error;
+      try {
+        const savedUser = await invalidUser.save();
+        error = savedUser;
+      } catch (err) {
+        error = err;
+      }
+
+      expect(error).toBeInstanceOf(mongoose.Error.ValidationError);
+      expect(error.errors.email).toBeDefined();
+      done();
+    });
+
+    test('fields not defined in schema should be undefined', async (done) => {
+      const validUser = new UserModel({...user, ...{fullname: 'John'}});
+      const savedUser = await validUser.save();
+      expect(savedUser.name).toBeDefined();
+      expect(savedUser.fullname).toBeUndefined();
+      done();
+    });
   });
 
   describe('Task model', () => {
-
+    test('should create and save task', () => {
+      // TODO Task model tests
+    });
   });
 
   afterAll((done) => {
