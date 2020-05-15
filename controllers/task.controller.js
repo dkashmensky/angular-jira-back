@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const joi = require('@hapi/joi');
+const validateSchemas = require('../utils/validator');
 
 const Task = mongoose.model('Tasks');
 
@@ -27,6 +29,13 @@ module.exports.get_task = (req, res) => {
     return;
   }
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({
+      status: 'Invalid ID',
+    });
+    return;
+  }
+
   Task.findOne({_id: id}, (err, task) => {
     if (err) {
       res.status(500).json({
@@ -51,6 +60,13 @@ module.exports.delete_task = (req, res) => {
     return;
   }
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({
+      status: 'Invalid ID',
+    });
+    return;
+  }
+
   Task.findOneAndDelete({_id: id}, (err, task) => {
     if (err) {
       res.status(500).json({
@@ -66,6 +82,15 @@ module.exports.delete_task = (req, res) => {
 };
 
 module.exports.create_task = (req, res) => {
+  const validation = validateSchemas.create_task_schema.validate(req.body);
+  if (validation.error) {
+    res.status(400).json({
+      status: 'ValidationError',
+      error: validation.error.details[0].message,
+    });
+    return;
+  }
+
   const {
     title,
     type,
@@ -110,6 +135,22 @@ module.exports.update_task = (req, res) => {
   if (!id) {
     res.status(400).json({
       status: 'ID missing',
+    });
+    return;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({
+      status: 'Invalid ID',
+    });
+    return;
+  }
+
+  const validation = validateSchemas.update_task_schema.validate(req.body);
+  if (validation.error) {
+    res.status(400).json({
+      status: 'ValidationError',
+      error: validation.error.details[0].message,
     });
     return;
   }

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const joi = require('@hapi/joi');
+const validateSchemas = require('../utils/validator');
 const utils = require('../utils/utils');
 
 const saltRounds = 10;
@@ -10,6 +12,13 @@ module.exports.get_user = (req, res) => {
   if (!id) {
     res.status(400).json({
       status: 'ID missing',
+    });
+    return;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({
+      status: 'Invalid ID',
     });
     return;
   }
@@ -53,6 +62,15 @@ module.exports.get_users = (req, res) => {
 };
 
 module.exports.create_user = (req, res) => {
+  const validation = validateSchemas.create_user_schema.validate(req.body);
+  if (validation.error) {
+    res.status(400).json({
+      status: 'ValidationError',
+      error: validation.error.details[0].message,
+    });
+    return;
+  }
+
   const {name, email, password} = req.body;
   User.find({}, (err, users) => {
     if (err) {
@@ -109,6 +127,13 @@ module.exports.delete_user = (req, res) => {
   if (!id) {
     res.status(400).json({
       status: 'ID missing',
+    });
+    return;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json({
+      status: 'Invalid ID',
     });
     return;
   }
