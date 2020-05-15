@@ -19,7 +19,7 @@ router.post('/tasks', (req, res) => {
   taskController.create_task(req, res);
 });
 
-router.update('/tasks/:id', (req, res) => {
+router.put('/tasks/:id', (req, res) => {
   taskController.update_task(req, res);
 });
 
