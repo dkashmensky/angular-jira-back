@@ -6,6 +6,9 @@ module.exports = {
     node: true,
   },
   extends: ['google'],
+  parserOptions: {
+    ecmaVersion: 8,
+  },
   rules: {
     'no-unused-vars': 'warn',
     'no-console': 'off',
