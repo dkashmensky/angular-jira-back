@@ -63,10 +63,23 @@ module.exports.create_user = (req, res) => {
       return;
     }
 
+    let rgb = utils.generateRgb();
+    let brightness = Math.round(((parseInt(rgb[0]) * 299) +
+      (parseInt(rgb[1]) * 587) +
+      (parseInt(rgb[2]) * 114)) / 1000);
+
+    while (brightness > 125) {
+      rgb = utils.generateRgb();
+      brightness = Math.round(((parseInt(rgb[0]) * 299) +
+        (parseInt(rgb[1]) * 587) +
+        (parseInt(rgb[2]) * 114)) / 1000);
+    }
+
     const newUser = new User({
       name,
       email,
       password: bcrypt.hashSync(password, saltRounds),
+      color: rgb.join(', '),
     });
 
     newUser.save((error, user) => {

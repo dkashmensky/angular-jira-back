@@ -28,10 +28,10 @@ app.use(headers);
 app.use(logger);
 
 app.use('/api', authRouter);
+app.use('/api', userRouter);
 
 app.use(auth);
 
-app.use('/api', userRouter);
 app.use('/api', taskRouter);
 
 app.listen(process.env.PORT || config.port);
