@@ -22,6 +22,13 @@ module.exports.get_user = (req, res) => {
       return;
     }
 
+    if (!user) {
+      res.status(400).json({
+        status: 'User not found',
+      });
+      return;
+    }
+
     res.status(200).json({
       status: 'Success',
       user,
